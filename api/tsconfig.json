@@ -3,13 +3,12 @@
     "composite": true,
     "skipLibCheck": true,
     "module": "ESNext",
-    "outDir": "dist",
+    "outDir": "./dist",
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
-    "rootDir": "./src",
     "strict": true
   },
   "include": [
-    "src/**/**.ts"
+    "./src/**/*.ts"
   ]
 }
