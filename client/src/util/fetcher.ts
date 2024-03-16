@@ -1,10 +1,12 @@
 export const backendBase = import.meta.env.DEV ? 'http://localhost:3000' : 'https://api.example.com';
 
-export async function APIFetch(
-    method: string,
-    path: string,
-    body?: Record<string, unknown>,
-) {
+export async function APIFetch
+    <T = Record<string, unknown>>
+    (
+        method: string,
+        path: string,
+        body?: Record<string, unknown>,
+    ) {
     const request = await fetch(backendBase + path, {
         method,
         headers: {
@@ -17,5 +19,5 @@ export async function APIFetch(
         throw new Error(`Request failed with status ${request.status}`);
     }
 
-    return request.json();
+    return request.json() as Promise<T>;
 }
