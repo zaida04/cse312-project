@@ -1,6 +1,8 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import User from "./db/models/User";
+import "./db/connect_mongo";
 
 const app = express()
 const PORT = process.env.PORT || 3000;
@@ -17,6 +19,6 @@ app.get("/", (req, res) => {
     res.send("Hello World");
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
     console.log(`Server is running on port http://localhost:${PORT}.`);
 });
