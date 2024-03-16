@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
+import { filterInput } from "../utils/filterInput";
 
 interface RetrieveOptions {
     outputKey: string;
@@ -17,14 +18,9 @@ export function createRetrieveById(model: mongoose.Model<any>, options: Retrieve
             })
         }
 
-        const filtered = options.outputFields ? options.outputFields.reduce((acc, field) => {
-            return {
-                ...acc,
-                [field]: retrieved[field]
-            }
-        }, {}) : retrieved;
+        const filtered = options.outputFields ? filterInput(retrieved, options.outputFields) : retrieved;
 
-        return response.json({
+        return response.status(200).json({
             error: false,
             [options.outputKey]: filtered
         })
