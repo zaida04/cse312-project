@@ -1,10 +1,20 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { APIFetch } from './util/fetcher';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    async function getData() {
+      const request = await APIFetch("GET", "/users/65f60caad6225df038c60445");
+      console.log(request);
+    }
+
+    getData();
+  }, []);
 
   return (
     <>
