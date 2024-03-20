@@ -11,7 +11,7 @@ const HomePage: React.FC = () => {
     const submitHandler = (event: any) => {
         event.preventDefault();
 
-        // API call goes here
+        // API call to add the post to the authenticated user goes here
 
         alert('An essay was submitted: ' + postText);
     }
