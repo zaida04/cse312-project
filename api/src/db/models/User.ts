@@ -6,6 +6,10 @@ interface IUser extends Document {
     email: string;
     password: string;
     createdAt: Date;
+    salt: string;
+    authenticationToken: string;
+    refreshToken: string;
+    updatedAt: Date;
 }
 
 // This is for mongodb to know what we are storing
@@ -15,8 +19,12 @@ const UserSchema: Schema = new Schema({
     password: { type: String, required: true },
     salt: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
+    authenticationToken: { type: String, required: true },
+    refreshToken: { type: String, required: true },
+    updatedAt: { type: Date, default: Date.now },
 });
 
 const User = mongoose.model<IUser>('User', UserSchema);
 
 export default User;
+ 
