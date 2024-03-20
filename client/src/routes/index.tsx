@@ -24,7 +24,7 @@ function Index() {
         getData();
     }, []);
 
-    return <div className="flex flex-row gap-2 w-full">
+    return <div className="flex flex-row justify-center w-full m-8">
         <LoginForm />
         <SignupForm />
     </div>
