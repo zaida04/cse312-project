@@ -1,5 +1,28 @@
 #sidebar {
+    position: absolute;
     left: 0px;
-    width: 20px;
+    top: 0px;
+    width: 140px;
     height: 100%;
+    border: 3px solid green;
 }
+
+#logo {
+    width: 30px;
+    position: absolute;
+    left: 15px;
+    top: 15px;
+}
+
+#sidebar-button-container {
+    position: absolute;
+    top: 60px;
+}
+
+.sidebar-button {
+    background-color: transparent;
+    width: 140px;
+    border: 3px solid orange;
+}
+
+
