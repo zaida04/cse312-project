@@ -13,7 +13,7 @@ const HomePage: React.FC = () => {
 
         // API call goes here
 
-        alert('An essay was submitted: ' + postText);
+        alert('A post was submitted: ' + postText);
     }
 
 
