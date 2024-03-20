@@ -4,6 +4,8 @@ import { createRoute } from '@tanstack/react-router';
 import { APIFetch } from "../util/fetcher";
 import '../app.css'
 
+import LoginForm from "../components/LoginForm";
+import SignupForm from "../components/SignupForm";
 
 export const Route = createRoute({
     getParentRoute: () => rootRoute,
@@ -22,5 +24,8 @@ function Index() {
         getData();
     }, []);
 
-    return <div className="p-2">Hello from Index!</div>
+    return <div className="flex flex-row gap-2 w-full">
+        <LoginForm />
+        <SignupForm />
+    </div>
 }
