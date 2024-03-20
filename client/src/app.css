@@ -1,0 +1,4 @@
+/* ripped from the tailwind (seems to be the same in daisyUI) website */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
