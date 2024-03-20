@@ -2,13 +2,13 @@
     position: absolute;
     left: 145px;
     top: 0px;
-    width: calc(100% - 145px);
+    width: calc(100% - 149px);
     height: 50px;
     border: 3px solid blue;
 }
 
 #user-div {
-    position: relative;
+    position: absolute;
     right: 30px;
     width: 100px;
     height: 50px;
@@ -19,5 +19,7 @@
 #profile-button {
     position: absolute;
     right: 0px;
-    top: 10px;
+    top: 2px;
+    background-color: transparent;
+    border: 3px solid orange;
 }
