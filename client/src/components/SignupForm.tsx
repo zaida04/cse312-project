@@ -1,4 +1,4 @@
-import InputWithLabel from "../component/InputWithLabel";
+import InputWithLabel from "./InputWithLabel";
 
 export default function SignupForm() {
     return <div className="card w-2/5">
