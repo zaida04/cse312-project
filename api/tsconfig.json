@@ -6,9 +6,13 @@
     "outDir": "./dist",
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
-    "strict": true
+    "strict": true,
+    "typeRoots": [
+      "../../node_modules/@types",
+      "./src/types"
+    ]
   },
   "include": [
-    "./src/**/*.ts"
+    "./src/**/*"
   ]
 }
