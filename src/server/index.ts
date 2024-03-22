@@ -2,13 +2,14 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import helmet from "helmet";
+import ViteExpress from "vite-express";
 import "./db/connect_mongo";
 
 import userRouter from './routes/users';
 import errorHandler from "./middleware/errorHandler";
 
 const app = express()
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
 
 app.use(express.json({ limit: "1mb" }));
 app.use(cookieParser());
@@ -32,6 +33,6 @@ app.all("*", (req, res) => {
     });
 });
 
-app.listen(PORT, async () => {
+ViteExpress.listen(app, PORT, () => {
     console.log(`Server is running on port http://localhost:${PORT}.`);
 });
