@@ -5,7 +5,7 @@ import { createInsert } from "../rest/insert";
 import { createDeleteById } from "../rest/delete";
 import { createUpdateById } from "../rest/update";
 import bcrypt from "bcryptjs";
-import { createHash } from "crypto";
+import { generateHashedValue } from "../utils/hash";
 
 const router = Router();
 
@@ -39,7 +39,7 @@ router.post("/users", createInsert(User, {
     additionalFields: async (request) => {
         const { password } = request.body;
         const salt = await bcrypt.genSalt(10);
-        const hashedPassword = createHash("sha256").update(password).digest("hex");
+        const hashedPassword = generateHashedValue(password + salt)
 
         return { salt, password: hashedPassword };
     }
@@ -50,8 +50,13 @@ router.post("/users/login", async (req, res) => {
     const user = await User.findOne({ username });
     if (!user) return res.status(404).json({ error: "User not found" });
 
-    const hashedAttemptPassword = createHash("sha256").update(password).digest("hex");
+    const hashedAttemptPassword = generateHashedValue(password + user.salt);
     if (user.password !== hashedAttemptPassword) return res.status(403).json({ error: "Invalid password" });
+
+    const hashUserId = generateHashedValue(user._id.toString());
+    res.cookie("token", hashUserId, { httpOnly: true });
+
+    return res.json({ user });
 });
 
 router.delete("/users/:id", createDeleteById(User));
