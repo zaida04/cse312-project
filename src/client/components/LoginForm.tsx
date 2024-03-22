@@ -34,14 +34,14 @@ export default function LoginForm() {
                 <InputWithLabel
                     label="Username"
                     type="text"
-                    id="username"
+                    id="login_username"
                     error={formState.errors.username?.message}
                     formState={register('username', { required: 'Username is required' })}
                 />
                 <InputWithLabel
                     label="Password"
                     type="password"
-                    id="password"
+                    id="login_password"
                     error={formState.errors.password?.message}
                     formState={register('password', { required: 'Password is required' })}
                 />
