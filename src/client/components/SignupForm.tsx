@@ -33,7 +33,7 @@ export default function SignupForm() {
             <InputWithLabel
                 label="Email"
                 type="email"
-                id="email"
+                id="register_email"
                 className="w-full"
                 error={formState.errors.email?.message}
                 formState={register("email", {
@@ -43,7 +43,7 @@ export default function SignupForm() {
             <InputWithLabel
                 label="Username"
                 type="text"
-                id="username"
+                id="register_username"
                 className="w-full"
                 error={formState.errors.username?.message}
                 formState={register("username", {
@@ -54,7 +54,7 @@ export default function SignupForm() {
                 <InputWithLabel
                     label="Password"
                     type="password"
-                    id="password"
+                    id="register_password"
                     error={formState.errors.password?.message}
                     formState={register("password", {
                         required: true,
@@ -67,7 +67,7 @@ export default function SignupForm() {
                 <InputWithLabel
                     label="Confirm password"
                     type="password"
-                    id="confirm-password"
+                    id="register_confirm_password"
                     error={formState.errors.confirm_password?.message}
                     formState={register("confirm_password", {
                         required: true,

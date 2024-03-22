@@ -1,4 +1,4 @@
-export const backendBase = import.meta.env.DEV ? 'http://localhost:3000' : 'https://api.example.com';
+export const backendBase = import.meta.env.DEV ? 'http://localhost:3000/api' : 'https://api.example.com';
 
 export async function APIFetch
     <T = Record<string, any>>
