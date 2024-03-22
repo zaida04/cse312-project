@@ -1,11 +1,11 @@
 export const backendBase = import.meta.env.DEV ? 'http://localhost:3000' : 'https://api.example.com';
 
 export async function APIFetch
-    <T = Record<string, unknown>>
+    <T = Record<string, any>>
     (
         method: string,
         path: string,
-        body?: Record<string, unknown>,
+        body?: Record<string, any>,
     ) {
     const request = await fetch(backendBase + path, {
         method,
@@ -15,9 +15,5 @@ export async function APIFetch
         body: body ? JSON.stringify(body) : undefined,
     });
 
-    if (!request.ok) {
-        throw new Error(`Request failed with status ${request.status}`);
-    }
-
-    return request.json() as Promise<T>;
+    return request.json() as Promise<T | { error: true, message: string }>;
 }

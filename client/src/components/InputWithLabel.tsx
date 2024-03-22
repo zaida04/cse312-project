@@ -1,10 +1,21 @@
-export default function InputWithLabel(props: {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label: string,
     type: string,
-    id: string
-}) {
+    id: string,
+    error?: string,
+    formState: any
+}
+
+export default function InputWithLabel(props: InputProps) {
     return <div className="form-group">
         <label className="label label-text" htmlFor={props.id}>{props.label}</label>
-        <input className="input input-sm input-bordered" type={props.type} id={props.id} />
+        <input
+            {...props.formState}
+            {...props}
+            type={props.type}
+            id={props.id}
+            className={"input input-sm input-bordered " + props.className}
+        />
+        <p className="text-xs text-red-500">{props.error}</p>
     </div>
 }

@@ -19,8 +19,8 @@ const UserSchema: Schema = new Schema({
     password: { type: String, required: true },
     salt: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
-    authenticationToken: { type: String, required: true },
-    refreshToken: { type: String, required: true },
+    authenticationToken: { type: String, required: false },
+    refreshToken: { type: String, required: false },
     updatedAt: { type: Date, default: Date.now },
 });
 
