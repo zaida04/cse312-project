@@ -8,19 +8,18 @@ export default {
     themes: [
       {
         mytheme: {
-        "primary": "#2563eb",
-        "secondary": "#0ea5e9",
-        "accent": "#22d3ee",
-        "neutral": "#111827",
-        "base-100": "#1f2937",
-        "info": "#0ea5e9",
-        "success": "#22c55e",
-        "warning": "#fde047",
-        "error": "#ef4444",
+          primary: "#2563eb",
+          secondary: "#0ea5e9",
+          accent: "#22d3ee",
+          neutra: "#111827",
+          "base-100": "#1f2937",
+          info: "#0ea5e9",
+          success: "#22c55e",
+          warning: "#fde047",
+          error: "#ef4444",
         },
       },
       "dark",
-      "light",
     ], // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
     darkTheme: "light", // name of one of the included themes for dark mode
     base: true, // applies background color and foreground color for root element by default

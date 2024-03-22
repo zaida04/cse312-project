@@ -3,7 +3,9 @@ import { Route as rootRoute } from "./__root";
 import { createRoute } from '@tanstack/react-router';
 import { APIFetch } from "../util/fetcher";
 import '../app.css'
+
 import PostForm from "../components/PostForm";
+import Post from "../components/Post";
 
 
 export const Route = createRoute({
@@ -24,5 +26,10 @@ function HomePage(){
         getData();
     }, []);
 
-    return <PostForm></PostForm>
+    return <>
+        <PostForm></PostForm>
+
+        {/* temp post. should fetch all posts */}
+        <Post postUsername="smaranve" postLikes="5" postText="Idek what's goin on bruh. pls work!"></Post>
+    </>
 }

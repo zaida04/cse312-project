@@ -2,8 +2,6 @@ import React, {useState} from 'react';
 import '../app.css'
 import UploadImg  from '../assets/icons8-image-upload-96.png'
 import DefaultAvatar from '../assets/icons8-avatar-50.png'
-import LikeOutline from '../assets/icons8-heart-96.png'
-import LikeFilled from '../assets/icons8-heart-filled-96.png'
 
 
 const PostForm: React.FC = () => {
@@ -13,7 +11,7 @@ const PostForm: React.FC = () => {
     const submitHandler = (event: any) => {
         event.preventDefault();
 
-        // API call goes here
+        // API call to add the post to datatbase goes here
 
         alert('A post was submitted: ' + postText);
     }
@@ -38,19 +36,6 @@ const PostForm: React.FC = () => {
                     />
                 </div>
                 <div className="flex justify-end space-x-2 mt-4">
-                    {/* like button */}
-                    <label className="swap">
-  
-                        {/* this hidden checkbox controls the state */}
-                        <input type="checkbox" />
-                        
-                        {/* like on icon */}
-                        <img className="swap-on fill-current" width="24" height="24" src={LikeOutline} />
-                        
-                        {/* like off icon */}
-                        <img className="swap-off fill-current" width="24" height="24" src={LikeFilled}/>
-                    </label>
-
                     {/* upload img functionality */}
                     <button className="btn btn-square btn-sm btn-ghost">
                         <img src={UploadImg} className="max-w-full max-h-full"/>
