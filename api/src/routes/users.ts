@@ -6,6 +6,8 @@ import { createDeleteById } from "../rest/delete";
 import { createUpdateById } from "../rest/update";
 import bcrypt from "bcryptjs";
 import { generateHashedValue } from "../utils/hash";
+import { validateRequest } from "zod-express-middleware";
+import { z } from "zod";
 
 const router = Router();
 
@@ -19,45 +21,64 @@ router.get("/users/@me", (req, res) => {
     return res.json({ user: req.user })
 });
 
-router.post("/users", createInsert(User, {
-    outputKey: "user",
-    inputFields: ["username", "email", "password", "salt"],
-    outputFields: ["_id", "username", "email", "createdAt"],
-    conditionCheck: async (request) => {
-        const { username, email, password, confirm_password } = request.body;
-        if (password !== confirm_password) {
-            return [false, "Passwords do not match"]
+router.post("/users",
+    validateRequest({
+        body: z.object({
+            username: z.string().min(1),
+            email: z.string().email(),
+            password: z.string().min(8),
+            confirm_password: z.string().min(8)
+
+        })
+    }),
+    createInsert(User, {
+        outputKey: "user",
+        inputFields: ["username", "email", "password", "salt"],
+        outputFields: ["_id", "username", "email", "createdAt"],
+        conditionCheck: async (request) => {
+            const { username, email, password, confirm_password } = request.body;
+            if (password !== confirm_password) {
+                return [false, "Passwords do not match"]
+            }
+
+            const existing = await User.findOne({ $or: [{ username }, { email }] });
+            if (existing) {
+                return [false, "Username or email already in use"];
+            }
+
+            return [true, null];
+        },
+        additionalFields: async (request) => {
+            const { password } = request.body;
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = generateHashedValue(password + salt)
+
+            return { salt, password: hashedPassword };
         }
+    })
+);
 
-        const existing = await User.findOne({ $or: [{ username }, { email }] });
-        if (existing) {
-            return [false, "Username or email already in use"];
-        }
+router.post("/users/login",
+    validateRequest({
+        body: z.object({
+            username: z.string().min(1),
+            password: z.string().min(8)
+        })
+    }),
+    async (req, res) => {
+        const { username, password } = req.body;
+        const user = await User.findOne({ username });
+        if (!user) return res.status(404).json({ error: "User not found" });
 
-        return [true, null];
-    },
-    additionalFields: async (request) => {
-        const { password } = request.body;
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = generateHashedValue(password + salt)
+        const hashedAttemptPassword = generateHashedValue(password + user.salt);
+        if (user.password !== hashedAttemptPassword) return res.status(403).json({ error: "Invalid password" });
 
-        return { salt, password: hashedPassword };
+        const hashUserId = generateHashedValue(user._id.toString());
+        res.cookie("token", hashUserId, { httpOnly: true });
+
+        return res.json({ user });
     }
-}))
-
-router.post("/users/login", async (req, res) => {
-    const { username, password } = req.body;
-    const user = await User.findOne({ username });
-    if (!user) return res.status(404).json({ error: "User not found" });
-
-    const hashedAttemptPassword = generateHashedValue(password + user.salt);
-    if (user.password !== hashedAttemptPassword) return res.status(403).json({ error: "Invalid password" });
-
-    const hashUserId = generateHashedValue(user._id.toString());
-    res.cookie("token", hashUserId, { httpOnly: true });
-
-    return res.json({ user });
-});
+);
 
 router.delete("/users/:id", createDeleteById(User));
 
