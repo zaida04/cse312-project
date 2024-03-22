@@ -15,5 +15,5 @@ export async function APIFetch
         body: body ? JSON.stringify(body) : undefined,
     });
 
-    return request.json() as Promise<T | { error: true, message: string }>;
+    return request.json() as Promise<(T & { error: false }) | { error: true, message: string }>;
 }

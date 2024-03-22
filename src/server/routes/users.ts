@@ -8,18 +8,30 @@ import bcrypt from "bcryptjs";
 import { generateHashedValue } from "../utils/hash";
 import { validateRequest } from "zod-express-middleware";
 import { z } from "zod";
+import { auth_middleware } from "../middleware/auth";
+import Session from "../db/models/Session";
 
 const router = Router();
+
+router.get("/api/users/@me", auth_middleware, (req, res) => {
+    if (!req.user) return res.status(403).json({ error: true, message: "Invalid auth token." });
+    return res.json({ user: req.user })
+});
+
+router.get("/api/logout", auth_middleware, async (req, res) => {
+    const cookieToken = req.cookies.token;
+    if (!cookieToken) return res.status(403).json({ error: true, message: "Missing auth token." });
+
+    await Session.deleteOne({ token: cookieToken });
+    res.clearCookie("token");
+
+    return res.redirect("/");
+});
 
 router.get("/api/users/:id", createRetrieveById(User, {
     outputKey: "user",
     outputFields: ["_id", "username", "email", "createdAt"]
 }));
-
-router.get("/api/users/@me", (req, res) => {
-    if (!req.user) return res.status(403).json({ error: "Invalid auth token." });
-    return res.json({ user: req.user })
-});
 
 router.post("/api/users",
     validateRequest({
@@ -68,12 +80,13 @@ router.post("/api/users/login",
     async (req, res) => {
         const { username, password } = req.body;
         const user = await User.findOne({ username });
-        if (!user) return res.status(404).json({ error: "User not found" });
+        if (!user) return res.status(404).json({ error: true, message: "User not found" });
 
         const hashedAttemptPassword = generateHashedValue(password + user.salt);
-        if (user.password !== hashedAttemptPassword) return res.status(403).json({ error: "Invalid password" });
+        if (user.password !== hashedAttemptPassword) return res.status(403).json({ error: true, message: "Invalid password" });
 
         const hashUserId = generateHashedValue(user._id.toString());
+        await Session.create({ user_id: user._id, token: hashUserId });
         res.cookie("token", hashUserId, { httpOnly: true });
 
         return res.json({ user });

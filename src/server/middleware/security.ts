@@ -13,7 +13,6 @@ export default function security() {
                 "formAction": ["'self'"],
                 "fontSrc": ["'self'"],
                 "connectSrc": ["'self'"],
-                "imgSrc": ["'self'"],
                 "frameAncestors": ["'none'"],
                 "blockAllMixedContent": [],
                 "upgradeInsecureRequests": []

@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "dev": "tsx ./src/server/index.ts",
+    "dev": "tsx watch --ignore ./vite.config.ts.* ./src/server/index.ts",
     "build:api": "tsc",
     "build:client": "tsc --noEmit && vite build"
   },
