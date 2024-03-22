@@ -19,7 +19,7 @@ export default function LoginForm() {
         if (!request.error) {
             console.log("Login successful");
             setError(null);
-            navigate({ "to": "/home" });
+            navigate({ "to": "/home" as any });
         } else {
             setError(request.message);
         }

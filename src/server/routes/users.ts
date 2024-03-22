@@ -11,17 +11,17 @@ import { z } from "zod";
 
 const router = Router();
 
-router.get("/users/:id", createRetrieveById(User, {
+router.get("/api/users/:id", createRetrieveById(User, {
     outputKey: "user",
     outputFields: ["_id", "username", "email", "createdAt"]
 }));
 
-router.get("/users/@me", (req, res) => {
+router.get("/api/users/@me", (req, res) => {
     if (!req.user) return res.status(403).json({ error: "Invalid auth token." });
     return res.json({ user: req.user })
 });
 
-router.post("/users",
+router.post("/api/users",
     validateRequest({
         body: z.object({
             username: z.string().min(1),
@@ -58,7 +58,7 @@ router.post("/users",
     })
 );
 
-router.post("/users/login",
+router.post("/api/users/login",
     validateRequest({
         body: z.object({
             username: z.string().min(1),
@@ -80,9 +80,9 @@ router.post("/users/login",
     }
 );
 
-router.delete("/users/:id", createDeleteById(User));
+router.delete("/api/users/:id", createDeleteById(User));
 
-router.patch("/users/:id", createUpdateById(User, {
+router.patch("/api/users/:id", createUpdateById(User, {
     outputKey: "user",
     inputFields: ["username", "email", "password", "salt"],
     outputFields: ["_id", "username", "email", "createdAt"]
