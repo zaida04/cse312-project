@@ -5,6 +5,7 @@ import helmet from "helmet";
 import "./db/connect_mongo";
 
 import userRouter from './routes/users';
+import errorHandler from "./middleware/errorHandler";
 
 const app = express()
 const PORT = process.env.PORT || 3000;
@@ -23,6 +24,13 @@ app.get("/", (req, res) => {
 });
 
 app.use(userRouter);
+app.use(errorHandler);
+app.all("*", (req, res) => {
+    return res.status(404).json({
+        error: true,
+        message: "Resource not found",
+    });
+});
 
 app.listen(PORT, async () => {
     console.log(`Server is running on port http://localhost:${PORT}.`);
