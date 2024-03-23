@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 // Define the TypeScript interface for the Post document
-interface IPost extends Document {
+export interface IPost extends Document {
   title: string;
   body: string;
   author: string;
@@ -19,7 +19,7 @@ interface IPost extends Document {
 const PostSchema: Schema = new Schema({
   title: { type: String, required: true },
   body: { type: String, required: true },
-  author: { type: String, required: true },
+  author: { type: Schema.Types.ObjectId, ref: "User", required: true },
   tags: [String],
   createdAt: { type: Date, default: Date.now },
   comments: [{
