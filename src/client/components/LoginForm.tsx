@@ -23,7 +23,7 @@ export default function LoginForm() {
             console.log("Login successful");
             setError(null);
             setUser(request.user);
-            navigate({ "to": "/home" as any });
+            navigate({ "to": "/home" });
         } else {
             setError(request.message);
         }

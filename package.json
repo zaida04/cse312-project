@@ -20,6 +20,7 @@
     "helmet": "^7.1.0",
     "jotai": "^2.7.1",
     "jsonwebtoken": "^9.0.1",
+    "lucide-react": "^0.363.0",
     "mongodb": "^6.5.0",
     "mongoose": "^8.2.2",
     "nanoid": "^3.3.6",
