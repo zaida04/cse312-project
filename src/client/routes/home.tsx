@@ -10,7 +10,7 @@ export const Route = createRoute({
 })
 
 function HomePage() {
-    return <div className="flex flex-col items-center gap-8">
+    return <div className="flex flex-col items-center gap-4">
         <PostForm />
 
         {/* temp post. should fetch all posts */}

@@ -26,5 +26,8 @@ export const auth_middleware = async (req: Request, res: Response, next: NextFun
 };
 
 export const require_login = async (req: Request, res: Response, next: NextFunction) => {
-    if (!req.user) return res.redirect("/");
+    if (!req.user) return res.json(403).json({
+        error: true,
+        message: "Must be logged in to access this resource."
+    })
 }
