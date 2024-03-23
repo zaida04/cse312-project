@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
-import '../app.css'
-import { UploadIcon } from 'lucide-react';
+import { UploadIcon } from "lucide-react";
+import { useState } from "react";
 
-const HomePage: React.FC = () => {
+const PostForm: React.FC = () => {
     const [postText, setPostText] = useState("");
 
 
     const submitHandler = (event: any) => {
         event.preventDefault();
 
-        // API call goes here
+        // API call to add the post to datatbase goes here
 
         alert('A post was submitted: ' + postText);
     }
 
 
     return (
-        <form className="p-4 rounded-lg" onSubmit={submitHandler}>
+        <form className="p-4 rounded-lg w-[50rem] border-2" onSubmit={submitHandler}>
             <div className="flex items-center space-x-4">
                 {/* User avatar with a placeholder icon */}
                 <div className="avatar">
@@ -29,10 +28,12 @@ const HomePage: React.FC = () => {
                 <textarea
                     placeholder="Yeet something!"
                     value={postText}
-                    className="textarea textarea-ghost textarea-sm flex-1"
+                    rows={3}
+                    className="textarea textarea-sm flex-1 border-black border"
                     onChange={(e) => setPostText(e.target.value)}
                 />
             </div>
+
             <div className="flex justify-end space-x-2 mt-4">
                 {/* upload img functionality */}
                 <button className="btn btn-square btn-sm btn-ghost">
@@ -42,9 +43,8 @@ const HomePage: React.FC = () => {
                 {/* the form submit button */}
                 <button type="submit" className="btn btn-sm btn-primary">Post</button>
             </div>
-            <div className="divider"></div>
         </form>
     );
 };
 
-export default HomePage;
+export default PostForm;
