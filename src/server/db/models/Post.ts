@@ -1,4 +1,3 @@
-
 import mongoose, { Schema, Document } from 'mongoose';
 
 // Define the TypeScript interface for the Post document
@@ -35,4 +34,3 @@ const PostSchema: Schema = new Schema({
 const Post = mongoose.model<IPost>('Post', PostSchema);
 
 export default Post;
-

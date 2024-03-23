@@ -4,10 +4,14 @@ import cors from "cors";
 import ViteExpress from "vite-express";
 import "./db/connect_mongo";
 
-import userRouter from './routes/users';
+// middleware
 import errorHandler from "./middleware/errorHandler";
 import logger from "./middleware/logging";
 import security from "./middleware/security";
+
+// routers
+import userRouter from './routes/users';
+import postRouter from './routes/posts';
 
 const app = express()
 const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
@@ -22,6 +26,7 @@ app.get("/api", (req, res) => {
     res.send("Hello World");
 });
 app.use(userRouter);
+app.use(postRouter);
 app.use(errorHandler);
 
 ViteExpress.listen(app, PORT, () => {
