@@ -4,6 +4,7 @@ import { validateRequest } from 'zod-express-middleware';
 import { createInsert } from '../rest/insert';
 import { auth_middleware } from '../middleware/auth';
 import { z } from 'zod';
+import { createRetrieveAll } from '../rest/retrieve';
 
 const router = Router();
 
@@ -29,9 +30,12 @@ router.post("/api/posts",
 
 
 // Route to get all posts
-router.get('/posts', async (req: Request, res: Response) => {
-    const posts = await Post.find().sort({ createdAt: -1 }); // Fetch all posts, newest first
-    res.json(posts);
-});
+router.get('/api/posts',
+    createRetrieveAll(Post, {
+        outputKey: "posts",
+        outputFields: ["_id", "title", "author", "createdAt", "body"],
+        populate: "author"
+    })
+);
 
 export default router;
