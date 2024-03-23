@@ -29,7 +29,7 @@ const PostForm: React.FC = () => {
                     placeholder="Yeet something!"
                     value={postText}
                     rows={3}
-                    className="textarea textarea-sm flex-1 border-black border"
+                    className="textarea textarea-sm flex-1 border-black/30 border"
                     onChange={(e) => setPostText(e.target.value)}
                 />
             </div>
