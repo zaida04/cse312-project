@@ -3,6 +3,8 @@ import InputWithLabel from './InputWithLabel';
 import { APIFetch } from '../util/fetcher'; // Assuming this is your API call function
 import { useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
+import { useSetAtom } from 'jotai';
+import { userAtom } from '../state';
 
 interface LoginFormInputs {
     username: string;
@@ -11,6 +13,7 @@ interface LoginFormInputs {
 
 export default function LoginForm() {
     const { register, handleSubmit, formState } = useForm<LoginFormInputs>();
+    const setUser = useSetAtom(userAtom);
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
 
@@ -19,6 +22,7 @@ export default function LoginForm() {
         if (!request.error) {
             console.log("Login successful");
             setError(null);
+            setUser(request.user);
             navigate({ "to": "/home" as any });
         } else {
             setError(request.message);
