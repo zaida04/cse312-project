@@ -6,7 +6,10 @@ export default function Navbar() {
             <a className="btn btn-ghost text-xl">Y.com</a>
         </div>
 
-        <div className="flex-none">
+        <div className="flex gap-4">
+            <ul className="menu menu-horizontal px-1">
+                <li><a href="/home">Home</a></li>
+            </ul>
             <Profile />
         </div>
     </div>
@@ -15,7 +18,7 @@ export default function Navbar() {
 function Profile() {
     const user = useUser();
     if (user === null) return <span className="loading loading-spinner loading-lg" />
-    if (user === false) return <p>You are not logged in.</p>
+    if (user === false) return <a href="/" className="btn btn-primary btn-sm">Login/Signup</a>
 
     return <div className="dropdown dropdown-end">
         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
