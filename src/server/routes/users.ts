@@ -87,7 +87,7 @@ router.post("/api/users/login",
 
         const hashUserId = generateHashedValue(user._id.toString() + Date.now());
         await Session.create({ user_id: user._id, token: hashUserId });
-        res.cookie("token", hashUserId, { httpOnly: true });
+        res.cookie("token", hashUserId, { httpOnly: true, maxAge: 1000 * 60 * 60 * 6 });
 
         return res.json({ user });
     }
