@@ -10,6 +10,14 @@ services:
       MONGO_INITDB_DATABASE: cse312
     volumes:
       - mongo-vol:/data/db
+  app:
+    build: .
+    ports:
+      - '8080:8080'
+    depends_on:
+      - mongo
+    environment:
+      DATABASE_URL: mongodb://webcrawlers:blah@mongo:27017/
 
 volumes:
   mongo-vol:
