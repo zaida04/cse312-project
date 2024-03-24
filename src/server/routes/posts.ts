@@ -33,7 +33,6 @@ router.post("/api/posts",
     })
 );
 
-
 // Route to get all posts
 router.get('/api/posts',
     createRetrieveAll(Post, {
