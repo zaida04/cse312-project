@@ -14,7 +14,7 @@ import userRouter from './routes/users';
 import postRouter from './routes/posts';
 
 const app = express()
-const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
+const PORT = process.env.PORT ? Number(process.env.PORT) : 8080;
 
 app.use(express.json({ limit: "1mb" }));
 app.use(cookieParser());
