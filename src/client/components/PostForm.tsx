@@ -3,6 +3,8 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { APIFetch } from "../util/fetcher";
 import Alert from "./Alert";
+import { useSetAtom } from "jotai";
+import { postsAtom } from "../state";
 
 interface PostFormData {
     body: string;
@@ -10,11 +12,13 @@ interface PostFormData {
 }
 const PostForm: React.FC = () => {
     const { register, reset, handleSubmit } = useForm<PostFormData>();
+    const setPosts = useSetAtom(postsAtom);
     const [error, setError] = useState<string | null>(null);
 
     const submitHandler: SubmitHandler<PostFormData> = async (data) => {
         const request = await APIFetch("POST", "/posts", data);
         if (!request.error) {
+            setPosts((prev) => prev ? [...prev, request.post] : [request.post]);
             reset();
         } else {
             setError(request.message);

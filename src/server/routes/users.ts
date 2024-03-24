@@ -85,7 +85,7 @@ router.post("/api/users/login",
         const hashedAttemptPassword = generateHashedValue(password + user.salt);
         if (user.password !== hashedAttemptPassword) return res.status(403).json({ error: true, message: "Invalid password" });
 
-        const hashUserId = generateHashedValue(user._id.toString());
+        const hashUserId = generateHashedValue(user._id.toString() + Date.now());
         await Session.create({ user_id: user._id, token: hashUserId });
         res.cookie("token", hashUserId, { httpOnly: true });
 

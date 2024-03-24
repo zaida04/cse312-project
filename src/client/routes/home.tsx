@@ -6,6 +6,8 @@ import { createRoute } from "@tanstack/react-router";
 import { IPost } from "../../server/db/models/Post";
 import { APIFetch } from "../util/fetcher";
 import { IUser } from "../../server/db/models/User";
+import { useAtom } from "jotai";
+import { postsAtom } from "../state";
 
 export const Route = createRoute({
     getParentRoute: () => rootRoute,
@@ -14,7 +16,7 @@ export const Route = createRoute({
 })
 
 function HomePage() {
-    const [posts, setPosts] = useState<IPost[] | null>();
+    const [posts, setPosts] = useAtom(postsAtom);
     useEffect(() => {
         async function fetchPosts() {
             const request = await APIFetch("GET", "/posts");
@@ -27,7 +29,7 @@ function HomePage() {
         fetchPosts();
     }, [])
 
-    return <div className="flex flex-col items-center gap-4">
+    return <div className="flex flex-col items-center gap-4 mb-8">
         <PostForm />
 
         {/* temp post. should fetch all posts */}

@@ -2,7 +2,9 @@ import { atom, useAtom } from "jotai"
 import { IUser } from "../server/db/models/User";
 import { useEffect } from "react";
 import { APIFetch } from "./util/fetcher";
+import { IPost } from "../server/db/models/Post";
 
+export const postsAtom = atom<IPost[] | null>(null);
 export const userAtom = atom<IUser | false | null>(null);
 
 export function useUser() {
