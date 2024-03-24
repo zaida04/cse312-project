@@ -30,7 +30,15 @@ export function createRetrieveById(model: mongoose.Model<any>, options: Retrieve
 
 export function createRetrieveAll(model: mongoose.Model<any>, options: RetrieveOptions) {
     return async (request: Request, response: Response) => {
-        let retrieved = options.populate ? await model.find().populate(options.populate).exec() : await model.find();
+        let retrieved = options.populate ?
+            await model
+                .find()
+                .sort({ createdAt: -1 })
+                .populate(options.populate)
+                .exec()
+            : await model
+                .find()
+                .sort({ createdAt: -1 });
         const filtered = options.outputFields ? retrieved.map((doc) => filterInput(doc, options.outputFields!)) : retrieved;
 
         return response.status(200).json({

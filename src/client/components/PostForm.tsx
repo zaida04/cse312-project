@@ -18,7 +18,7 @@ const PostForm: React.FC = () => {
     const submitHandler: SubmitHandler<PostFormData> = async (data) => {
         const request = await APIFetch("POST", "/posts", data);
         if (!request.error) {
-            setPosts((prev) => prev ? [...prev, request.post] : [request.post]);
+            setPosts((prev) => prev ? [request.post, ...prev] : [request.post]);
             reset();
         } else {
             setError(request.message);

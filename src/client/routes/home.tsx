@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Post from "../components/Post";
 import PostForm from "../components/PostForm";
 import { Route as rootRoute } from "./__root";
 import { createRoute } from "@tanstack/react-router";
-import { IPost } from "../../server/db/models/Post";
 import { APIFetch } from "../util/fetcher";
 import { IUser } from "../../server/db/models/User";
 import { useAtom } from "jotai";
