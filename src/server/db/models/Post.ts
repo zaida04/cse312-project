@@ -13,6 +13,7 @@ export interface IPost extends Document {
     author: string;
   }[];
   isPublished: boolean;
+  likes: mongoose.Schema.Types.ObjectId[]; // the change for like so that I know the IDS who liked the post
 }
 
 // Define the schema for the MongoDB Post collection
@@ -28,6 +29,7 @@ const PostSchema: Schema = new Schema({
     author: { type: String, required: true }
   }],
   isPublished: { type: Boolean, default: false },
+  likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
 });
 
 // Create the Mongoose model for the Post schema
