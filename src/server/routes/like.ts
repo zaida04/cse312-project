@@ -8,7 +8,7 @@ router.post('/api/posts/:postId/like', auth_middleware,(async (req: Request, res
     const postId = req.params.postId;
     const userId = req.user!._id;
 
-    const post = await Post.findById(postId);
+    let post = await Post.findById(postId);
 
     if (!post) {
         return next(new Error('Post not found'));
@@ -23,6 +23,8 @@ router.post('/api/posts/:postId/like', auth_middleware,(async (req: Request, res
     }
 
     await post.save();
+
+    post = await Post.findById(postId).populate('likes', 'username');
 
     res.status(200).send(post);
 }));
