@@ -7,5 +7,5 @@ RUN npm install
 COPY . .
 RUN npm run build:api
 
-EXPOSE 3000
+EXPOSE 8080
 CMD ["node", "dist/src/server/index.js"]
