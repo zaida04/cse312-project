@@ -2,14 +2,15 @@ import { Request, Response } from "express";
 import mongoose from "mongoose";
 import { filterInput } from "../utils/filterInput";
 
-interface CreateOptions {
+interface CreateOptions<T> {
     outputKey: string;
     inputFields?: string[];
     outputFields?: string[];
     conditionCheck?: (request: Request) => Promise<[true, null] | [false, string]>;
     additionalFields?: (request: Request) => Promise<Record<string, any>>;
+    additionalOutput?: (document: T) => Promise<Record<string, any>>;
 }
-export function createInsert(model: mongoose.Model<any>, options: CreateOptions) {
+export function createInsert<T extends mongoose.Document>(model: mongoose.Model<any>, options: CreateOptions<T>) {
     return async (request: Request, response: Response) => {
         if (options.conditionCheck) {
             const [condition, message] = await options.conditionCheck(request);
@@ -31,11 +32,16 @@ export function createInsert(model: mongoose.Model<any>, options: CreateOptions)
                 ...additionalData
             });
             const filteredOutput = options.outputFields ? filterInput(createdDocument, options.outputFields) : createdDocument;
+            const combinedOutput = options.additionalOutput ?
+                {
+                    ...filteredOutput,
+                    ...(await options.additionalOutput(filteredOutput)),
+                } : filteredOutput;
 
             // Respond with the created document
             return response.status(201).json({
                 error: false,
-                [options.outputKey]: filteredOutput
+                [options.outputKey]: combinedOutput
             });
         } catch (error) {
             // Handle potential errors, such as validation errors or duplicate keys
