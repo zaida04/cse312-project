@@ -13,7 +13,6 @@ export default function Post(props: {
 }) {
     const user = useUser();
     const [posts, setPosts] = useAtom(postsAtom);
-    console.log(props.likes, user);
     const isLiked = user && props.likes.includes(user._id);
 
     const clickHandler = async () => {
@@ -62,9 +61,9 @@ export default function Post(props: {
                     {props.likes.length}
                     <div>
                         {isLiked ? (
-                            <HeartIcon type="submit" onClick={clickHandler} className="swap-off fill-red-500 w-[24px] h-[24px]" />
+                            <HeartIcon role="button" type="submit" onClick={clickHandler} className="swap-off fill-red-500 w-[24px] h-[24px]" />
                         ) : (
-                            <HeartIcon type="submit" onClick={clickHandler} className="swap-on  fill-current w-[24px] h-[24px]" />
+                            <HeartIcon role="button" type="submit" onClick={clickHandler} className="swap-on  fill-current w-[24px] h-[24px]" />
                         )}
                     </div>
                 </div>
