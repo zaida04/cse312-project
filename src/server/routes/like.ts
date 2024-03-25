@@ -14,7 +14,10 @@ router.post('/api/posts/:postId/like', auth_middleware, async (req: Request, res
         return next(new Error('Post not found'));
     }
 
-    const alreadyLiked = post.likes.some(id => id.toString() === userId.toString());
+    // const alreadyLiked = post.likes.some(id => id.toString() === userId.toString());
+    const alreadyLiked = post.likes.includes(userId);
+    console.log("alreadyLiked: ", alreadyLiked);
+
 
     if (!alreadyLiked) {
         post.likes.push(userId);

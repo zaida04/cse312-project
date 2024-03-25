@@ -24,7 +24,7 @@ export default function Post(props: {
         }
         if (!request.error) {
             var liked_list = request.liked_list /* liked list: a list of strings. e.g.: ["username1", "username2"] */
-            if (liked_list.contains(user)) {
+            if (liked_list.includes(user)) {
                 setLiked(true)
             } else {
                 setLiked(false)
@@ -58,9 +58,9 @@ export default function Post(props: {
                     {props.likes}
                     <div>
                         {liked ? (
-                            <HeartIcon type="submit" onClick={submitHandler} className="swap-off fill-current w-[24px] h-[24px]" />
+                            <HeartIcon type="submit" onClick={submitHandler} className="swap-off fill-red-500 w-[24px] h-[24px]" />
                         ) : (
-                            <HeartIcon type="submit" onClick={submitHandler} className="swap-on fill-current w-[24px] h-[24px]" />
+                            <HeartIcon type="submit" onClick={submitHandler} className="swap-on  fill-current w-[24px] h-[24px]" />
                         )}
                     </div>
                 </div>
