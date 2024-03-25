@@ -12,9 +12,12 @@ export const Route = createRoute({
 })
 
 function Index() {
-    return <div className="flex flex-row justify-center gap-20 w-full p-8">
-        <LoginForm />
-        <div className="border-r-2 border-gray-300/40 h-96"></div>
-        <SignupForm />
-    </div>
+    return <>
+        <div className="flex flex-row justify-center gap-20 w-full p-8">
+            <LoginForm />
+            <div className="border-r-2 border-gray-300/40 h-96"></div>
+            <SignupForm />
+        </div>
+        <img className="mb-8" src="/Jesse-Hartloff.png" width={300} />
+    </>
 }
