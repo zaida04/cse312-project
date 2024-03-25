@@ -35,6 +35,6 @@ function Profile() {
             </ul>
         </div>
         {/** dropdown is buggy on some devices */}
-        <button className="btn btn-primary" onClick={() => window.location.href = "/api/logout"}>logout</button>
+        <button className="btn btn-primary btn-sm" onClick={() => window.location.href = "/api/logout"}>logout</button>
     </>
 }
