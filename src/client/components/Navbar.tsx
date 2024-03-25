@@ -21,8 +21,8 @@ function Profile() {
     if (user === false) return <a href="/" className="btn btn-primary btn-sm">Login/Signup</a>
 
     return <div className="dropdown dropdown-end">
-        <div role="button" className="btn btn-ghost btn-circle w-fit flex flex-row gap-2 items-center border-2 p-1 rounded-xl border-black/30">
-            <div tabIndex={0} className="avatar">
+        <div tabIndex={0} role="button" className="btn btn-ghost btn-circle w-fit flex flex-row gap-2 items-center border-2 p-1 rounded-xl border-black/30">
+            <div className="avatar">
                 <div className="w-10 rounded-full">
                     <img alt="Tailwind CSS Navbar component" src="/pfp.png" />
                 </div>
