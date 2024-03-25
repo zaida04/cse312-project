@@ -20,17 +20,21 @@ function Profile() {
     if (user === null) return <span className="loading loading-spinner loading-lg" />
     if (user === false) return <a href="/" className="btn btn-primary btn-sm">Login/Signup</a>
 
-    return <div className="dropdown dropdown-end">
-        <div tabIndex={0} role="button" className="btn btn-ghost btn-circle w-fit flex flex-row gap-2 items-center border-2 p-1 rounded-xl border-black/30">
-            <div className="avatar">
-                <div className="w-10 rounded-full">
-                    <img alt="Tailwind CSS Navbar component" src="/pfp.png" />
+    return <>
+        <div className="dropdown dropdown-end">
+            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle w-fit flex flex-row gap-2 items-center border-2 p-1 rounded-xl border-black/30">
+                <div className="avatar">
+                    <div className="w-10 rounded-full">
+                        <img alt="Tailwind CSS Navbar component" src="/pfp.png" />
+                    </div>
                 </div>
+                <p className="font-bold">{user.username}</p>
             </div>
-            <p className="font-bold">{user.username}</p>
+            <ul className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-[10rem]">
+                <li><a href="/api/logout">Logout</a></li>
+            </ul>
         </div>
-        <ul className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-[10rem]">
-            <li><a href="/api/logout">Logout</a></li>
-        </ul>
-    </div>
+        {/** dropdown is buggy on some devices */}
+        <button className="btn btn-primary" onClick={() => window.location.href = "/api/logout"}>logout</button>
+    </>
 }
