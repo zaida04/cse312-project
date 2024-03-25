@@ -5,7 +5,7 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
-RUN npm run build:api
+RUN npm run build:client && npm run build:api
 
 EXPOSE 8080
 CMD ["node", "dist/src/server/index.js"]
