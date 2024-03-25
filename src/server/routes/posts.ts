@@ -22,9 +22,9 @@ router.post("/api/posts",
     createInsert<IPost>(Post, {
         outputKey: "post",
         inputFields: ["title", "body", "author", "tags", "comments", "isPublished"],
-        outputFields: ["_id", "title", "author", "body", "createdAt"],
+        outputFields: ["_id", "title", "author", "body", "createdAt", "likes"],
         additionalFields: async (request) => {
-            return { author: request.user!._id, comments: [], tags: [] };
+            return { author: request.user!._id, comments: [], tags: [], likes: [] };
         },
         additionalOutput: async (post) => {
             const user = await User.findById(post.author);
@@ -37,7 +37,7 @@ router.post("/api/posts",
 router.get('/api/posts',
     createRetrieveAll(Post, {
         outputKey: "posts",
-        outputFields: ["_id", "title", "author", "createdAt", "body"],
+        outputFields: ["_id", "title", "author", "createdAt", "body", "likes"],
         populate: "author"
     })
 );

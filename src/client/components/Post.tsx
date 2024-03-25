@@ -1,7 +1,8 @@
 import { HeartIcon } from "lucide-react";
 import { useState } from 'react';
 import { APIFetch } from "../util/fetcher";
-import { useUser } from "../state"
+import { postsAtom, useUser } from "../state"
+import { useAtom } from "jotai";
 
 export default function Post(props: {
     username: string,
@@ -10,25 +11,28 @@ export default function Post(props: {
     likes: string[],
     id: string
 }) {
-    const [liked, setLiked] = useState<boolean>(); 
-    const user = useUser()
-    console.log("useUser: ", user)
+    const user = useUser();
+    const [posts, setPosts] = useAtom(postsAtom);
+    console.log(props.likes, user);
+    const isLiked = user && props.likes.includes(user._id);
 
-    const submitHandler = async () => {
-        /* expect request.liked_list to be a list of people who like this post */
-        var request
-        if (!liked) {
-            request = await APIFetch("POST", "/posts/" + props.id + "/like");
-        } else {
-            request = await APIFetch("POST", "/posts/" + props.id + "/unlike");
-        }
+    const clickHandler = async () => {
+        const request = await APIFetch("POST",
+            isLiked ?
+                "/posts/" + props.id + "/unlike"
+                : "/posts/" + props.id + "/like"
+        );
+
         if (!request.error) {
-            var liked_list = request.liked_list /* liked list: a list of strings. e.g.: ["username1", "username2"] */
-            if (liked_list.contains(user)) {
-                setLiked(true)
-            } else {
-                setLiked(false)
-            }
+            setPosts((prev) => {
+                if (!prev) return prev;
+
+                const currentPost = prev.find((post) => post._id === props.id);
+                if (!currentPost) return prev;
+
+                currentPost.likes = request.likes;
+                return [...prev];
+            })
         }
     }
 
@@ -55,12 +59,12 @@ export default function Post(props: {
 
                 {/* like button */}
                 <div className="card-actions justify-end space-x-2 mt-4">
-                    {props.likes}
+                    {props.likes.length}
                     <div>
-                        {liked ? (
-                            <HeartIcon type="submit" onClick={submitHandler} className="swap-off fill-current w-[24px] h-[24px]" />
+                        {isLiked ? (
+                            <HeartIcon type="submit" onClick={clickHandler} className="swap-off fill-red-500 w-[24px] h-[24px]" />
                         ) : (
-                            <HeartIcon type="submit" onClick={submitHandler} className="swap-on fill-current w-[24px] h-[24px]" />
+                            <HeartIcon type="submit" onClick={clickHandler} className="swap-on  fill-current w-[24px] h-[24px]" />
                         )}
                     </div>
                 </div>
