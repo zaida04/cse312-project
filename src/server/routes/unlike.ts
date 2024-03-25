@@ -4,8 +4,9 @@ import { auth_middleware } from '../middleware/auth';
 
 const router = Router();
 
-router.post('/api/posts/:postId/unlike', auth_middleware, async (req: Request, res: Response, next: NextFunction) => {
+router.post('/api/posts/:postId/like', auth_middleware, async (req: Request, res: Response, next: NextFunction) => {
     const postId = req.params.postId;
+    console.log("post_id: ", postId)
     const userId = req.user!._id;
 
     let post = await Post.findById(postId);
@@ -14,16 +15,18 @@ router.post('/api/posts/:postId/unlike', auth_middleware, async (req: Request, r
         return next(new Error('Post not found'));
     }
 
-    const index = post.likes.findIndex(id => id.toString() === userId.toString());
+    // const alreadyLiked = post.likes.some(id => id.toString() === userId.toString());
+    const alreadyLiked = post.likes.includes(userId);
+    console.log("alreadyLiked: ", alreadyLiked);
 
-    if (index !== -1) {
-        post.likes.splice(index, 1);
+
+    if (!alreadyLiked) {
+        post.likes.push(userId);
         await post.save();
-
-        post = await Post.findById(postId).populate('likes', 'username');
-        res.status(200).send(post);
+        
+        res.status(200).json({error: false, "liked": post?.likes});
     } else {
-        res.status(409).send({ message: "You haven't liked this post." });
+        return res.status(409).send({ message: "You have already liked this post." });
     }
 });
 

@@ -6,6 +6,7 @@ const router = Router();
 
 router.post('/api/posts/:postId/like', auth_middleware, async (req: Request, res: Response, next: NextFunction) => {
     const postId = req.params.postId;
+    console.log("post_id: ", postId)
     const userId = req.user!._id;
 
     let post = await Post.findById(postId);
@@ -23,7 +24,7 @@ router.post('/api/posts/:postId/like', auth_middleware, async (req: Request, res
         post.likes.push(userId);
         await post.save();
         
-        res.status(200).json({error: true, "liked": post?.likes});
+        res.status(200).json({error: false, "liked": post?.likes});
     } else {
         return res.status(409).send({ message: "You have already liked this post." });
     }

@@ -10,8 +10,9 @@ export default function Post(props: {
     likes: string[],
     id: string
 }) {
-    const [liked, setLiked] = useState<boolean>(); 
     const user = useUser()
+    const [liked, setLiked] = useState<boolean>(props.likes.includes(user._id));
+    
     console.log("useUser: ", user)
 
     const submitHandler = async () => {
@@ -23,7 +24,7 @@ export default function Post(props: {
             request = await APIFetch("POST", "/posts/" + props.id + "/unlike");
         }
         if (!request.error) {
-            var liked_list = request.liked_list /* liked list: a list of strings. e.g.: ["username1", "username2"] */
+            var liked_list = request.liked /* liked list: a list of strings. e.g.: ["username1", "username2"] */
             if (liked_list.includes(user)) {
                 setLiked(true)
             } else {

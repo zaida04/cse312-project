@@ -11,6 +11,8 @@ import security from "./middleware/security";
 
 // routers
 import userRouter from './routes/users';
+import likeRouter from './routes/like';
+import unlikeRouter from './routes/like';
 import postRouter from './routes/posts';
 
 const app = express()
@@ -26,6 +28,8 @@ app.get("/api", (req, res) => {
     res.send("Hello World");
 });
 app.use(userRouter);
+app.use(likeRouter);
+app.use(unlikeRouter);
 app.use(postRouter);
 app.use(errorHandler);
 
