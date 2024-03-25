@@ -40,7 +40,8 @@ function HomePage() {
                 username={(post.author as unknown as IUser).username}
                 title={post.title}
                 body={post.body}
-                likes={"5"}
+                likes={post.likes as unknown as string[]}
+                id={post._id}
             />
         )}
     </div>

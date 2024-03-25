@@ -20,8 +20,7 @@ router.post('/api/posts/:postId/like', auth_middleware, async (req: Request, res
         post.likes.push(userId);
         await post.save();
         
-        post = await Post.findById(postId).populate('likes', 'username');
-        res.status(200).send(post);
+        res.status(200).json({error: true, "liked": post?.likes});
     } else {
         return res.status(409).send({ message: "You have already liked this post." });
     }
