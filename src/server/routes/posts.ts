@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
 import Post, { IPost } from '../db/models/Post';
 import { validateRequest } from 'zod-express-middleware';
 import { createInsert } from '../rest/insert';
@@ -6,6 +6,7 @@ import { auth_middleware } from '../middleware/auth';
 import { z } from 'zod';
 import { createRetrieveAll } from '../rest/retrieve';
 import User from '../db/models/User';
+import escape from "escape-html";
 
 const router = Router();
 
@@ -24,11 +25,20 @@ router.post("/api/posts",
         inputFields: ["title", "body", "author", "tags", "comments", "isPublished"],
         outputFields: ["_id", "title", "author", "body", "createdAt", "likes"],
         additionalFields: async (request) => {
-            return { author: request.user!._id, comments: [], tags: [], likes: [] };
+            return {
+                body: escape(request.body.body),
+                title: escape(request.body.title),
+                author: request.user!._id,
+                comments: [],
+                tags: [],
+                likes: []
+            };
         },
         additionalOutput: async (post) => {
             const user = await User.findById(post.author);
-            return { author: user };
+            return {
+                author: user,
+            };
         }
     })
 );

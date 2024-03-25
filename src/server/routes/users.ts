@@ -10,6 +10,7 @@ import { validateRequest } from "zod-express-middleware";
 import { z } from "zod";
 import { auth_middleware } from "../middleware/auth";
 import Session from "../db/models/Session";
+import escape from "escape-html";
 
 const router = Router();
 
@@ -40,7 +41,6 @@ router.post("/api/users",
             email: z.string().email(),
             password: z.string().min(8),
             confirm_password: z.string().min(8)
-
         })
     }),
     createInsert(User, {
@@ -65,7 +65,11 @@ router.post("/api/users",
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = generateHashedValue(password + salt)
 
-            return { salt, password: hashedPassword };
+            return {
+                salt,
+                password: hashedPassword,
+                username: escape(request.body.username),
+            };
         }
     })
 );
